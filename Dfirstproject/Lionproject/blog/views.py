@@ -7,7 +7,7 @@ from .forms import PostForm
 
 def new(request):
     form=PostForm()
-    return render(request, 'new.html')
+    return render(request, 'new.html', {'form': form})
 
 def home(request):
     posts = Post.objects
@@ -19,11 +19,11 @@ def detail(request, post_id):
 
 def create(request):
     form=PostForm(request.POST, request.FILES)
-    if form.is_vaild():
+    if form.is_valid():
         new_post=form.save(commit=False)
         new_post.date=timezone.now()
         new_post.save()
-        return redirect('detail', new_post.id)
+        return redirect('detail',new_post.id)
     return redirect('home')
 
 def delete(request, post_id):
